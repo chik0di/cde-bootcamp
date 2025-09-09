@@ -21,7 +21,7 @@
 echo "Something wrong with github raw file content display so we're loading with db file directly"
 
 DATABASE="posey"
-DUMP="$HOME/cde/bash-ql/scripts/sql/parch-posey-dump.sql"
+DUMP="/tmp/parch-posey-dump.sql"
 
 if sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw "$DATABASE"; then
     echo "Database '$DATABASE' already exists. Skipping creation."
