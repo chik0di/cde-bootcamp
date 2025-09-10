@@ -1,0 +1,1 @@
+Download a CSV file. You can access the CSV using this link. Save it into a folder called raw. Your script should confirm that the file has been saved in the raw folder.
