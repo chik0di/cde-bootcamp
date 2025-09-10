@@ -4,7 +4,7 @@ CREATE TABLE web_events (
 	account_id integer,
 	occurred_at timestamp,
 	channel bpchar
-);
+); 
 INSERT INTO web_events VALUES (1,1001,'2015-10-06 17:13:58','direct');
 INSERT INTO web_events VALUES (2,1001,'2015-11-05 03:08:26','direct');
 INSERT INTO web_events VALUES (3,1001,'2015-12-04 03:57:24','direct');
