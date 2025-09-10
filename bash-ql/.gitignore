@@ -1,1 +1,3 @@
-*.csv
+$HOME/cde/bash-ql/pipeline/transformed/2023_year_finance.csv
+$HOME/cde/bash-ql/pipeline/gold/2023_year_finance.csv
+$HOME/cde/bash-ql/pipeline/raw/annual_survey2023.csv 
