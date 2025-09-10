@@ -1,0 +1,1 @@
+Load the transformed data into a directory named Gold. Also, confirm that the file has been saved in the folder.
