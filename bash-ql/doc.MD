@@ -18,8 +18,7 @@ In the bash script, I wrote:
 ```
 RAW_DIR="~/cde/bash-ql/raw"
 ```
-but in bash `~` expands to your home directory only when typed directly in the shell.
-When you put it inside quotes ("~/cde/bash-ql/raw"), it becomes a literal string (~/cde/...) instead of expanding. 
+but in bash, `~` expands to your home directory only when typed directly in the shell. But when you put it inside quotes, it's read as literal string and creates a directory named `~` with sub-paths `cde` and so on. 
 
 So it's either I remove the path from quotes, or quite preferrably, resort to the `$HOME` default variable.
 ```
