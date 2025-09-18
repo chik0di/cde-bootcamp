@@ -11,9 +11,9 @@
 export CSV_URL="https://www.stats.govt.nz/assets/Uploads/Annual-enterprise-survey/Annual-enterprise-survey-2023-financial-year-provisional/Download-data/annual-enterprise-survey-2023-financial-year-provisional.csv"
 
 # Directory names
-RAW_DIR="$HOME/cde/bash-ql/pipeline/raw"
-TRANSFORMED_DIR="$HOME/cde/bash-ql/pipeline/transformed"
-GOLD_DIR="$HOME/cde/bash-ql/pipeline/gold"
+RAW_DIR="$HOME/cde/bash-ql/etl/raw"
+TRANSFORMED_DIR="$HOME/cde/bash-ql/etl/transformed"
+GOLD_DIR="$HOME/cde/bash-ql/etl/gold"
 
 # File names
 RAW_FILE="${RAW_DIR}/annual_survey2023.csv"
