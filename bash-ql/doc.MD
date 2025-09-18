@@ -1,4 +1,4 @@
-## This documentation exists primarily so I don't forget my sweat and tears
+# Documentation
 
 First things first, I created a remote repository on github, then I cloned it from my home path in the shell. 
 
@@ -10,10 +10,11 @@ I went ahead to `mkdir bash-ql` right under `cde` as this directory will hold al
 
 I started by creating separate folders including `etl` to store folders that will harbor files generated from the pipeline process, there's also `scripts` to store both `shell` and `sql` scripts that contain pipeline code and Manager Ayoola's queries, respecitvely. 
 
-## Stage One
-For [stage one](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/etl/raw/task.txt), I downloaded a csv file via `curl` alongside the `-o` flag to output download to some path I had already defined and stored in a variable `RAW_FILE`
+## Extraction and Transformation
+### Extraction
+For [this task](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/etl/raw/task.txt), I downloaded a csv file via `curl` alongside the `-o` flag to output download to some path I had already defined and stored in a variable `RAW_FILE`
 
-#### Encounter - mistakenly created funny directories
+### Roadblock I 
 In the bash script, I wrote:
 ```
 RAW_DIR="~/cde/bash-ql/raw"
@@ -25,14 +26,14 @@ So it's either I remove the path from quotes, or quite preferrably, resort to th
 "$HOME/cde/bash-ql/etl/raw"
 ```
 
-## Stage Two
+### Transformation
 
-In the [second stage](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/etl/transformed/task.txt) of the data pipline, data extracted and stored in `RAW_FILE` which originally had over 10 fields was transformed in the following defined transformation tasks:
+In the [transformation](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/etl/transformed/task.txt) of the data pipline, data extracted and stored in `RAW_FILE` which originally had over 10 fields was transformed in the following defined transformation tasks:
 
 1. Rename `Variable_code` column to `variable_code`
 2. Select only the `year`, `value`, `Units`, `variable_code`
 
-### for task 1
+#### Task 1
 
 I executed task 1 via the `sed` command
 - first extract only the column names
@@ -40,7 +41,7 @@ I executed task 1 via the `sed` command
 ```
 head -n 1 $RAW_FILE | sed 's/Variable_code/variable_code/'
 ```
-### for task 2:
+#### Task 2:
 - extract the headers
 - replace the commas with a new line
 - collect the line number of the fields we want (returns as 1:Year, 4:Value)
@@ -53,7 +54,7 @@ units_col=$(head -1 $RAW_FILE | tr ',' '\n' | grep -n -w "Units" | cut -d: -f1)
 var_col=$(head -1 $RAW_FILE | tr ',' '\n' | grep -n -w "Variable_code" | cut -d: -f1)
 ```
 
-### finally 
+#### finally 
 combine the header and the filtered rows and redirect the output to the `transformed` csv I'd created earlier:
 ```
 {
@@ -62,11 +63,98 @@ combine the header and the filtered rows and redirect the output to the `transfo
 } > $TRANSFORMED_FILE
 ```
 
-### finally finally 
+### Loading
 load the `transformed` csv to the `gold` layer
 ```
 cp $TRANSFORMED_FILE $GOLD_FILE
 ```
 
-# Working with Databases
-up next.. 
+## Working with Databases
+- Install postgres along with its clients
+
+```
+sudo apt install postgresql postgresql-client
+```
+- Verify installation
+```
+psql --version
+createdb --version
+```
+You should see something like psql (PostgreSQL) 16.3.
+### Create posey database
+- method 1 (from bash)
+
+By default, it uses your Linux username as the PostgreSQL role. If you’re logged in as root, it will try to connect as the Postgres role root.
+
+That’s why it's best practice to run it as the postgres user. 
+```
+sudo -u postgres createdb posey
+```
+- method 2
+```
+# Connect as the postgres system user
+
+sudo -u postgres psql
+
+# Run queries directly inside the the local PostgreSQL server
+
+CREATE DATABASE posey;
+```
+
+
+### Load into `posey` db by summoning the Dump file
+
+Dump files are the most straightforward way to load a postgres database, especially for test purposes. The tasks provided csv on github but `curl` could not access raw github content on my device. 
+```
+ sudo -u postgres psql -d "$DB_NAME" -f "$DUMP_FILE"
+```
+The above line:
+
+- Connects to database `posey`
+- Executes all SQL commands inside [posey.sql]() 
+- Rebuilds the tables, data, and other available db objects.
+
+### Roadblock II    
+Ran the [sql script]() that creates the db and loads the [dump file]() and here's the shell output: 
+```
+Database 'posey' already exists. 
+
+Skipping creation. Loading SQL dump into ... 
+
+psql: error: /root/cde/bash-ql/scripts/sql/parch-posey-dump.sql: Permission denied 
+
+Data loaded into 'posey'.
+```
+#### problems
+- Permission denied when loading the SQL file.
+
+ `psql` (which is running as the `postgres` system user via `sudo -u postgres`) cannot read the `.sql` dump file, because that file lives in root’s home directory and only `root` has access by default, `postgres` doesn't.
+
+- Success message prints even if loading failed. 
+
+Still got the `Data loaded into 'posey'` message 
+
+#### solutions 
+1.  move dump file out of `root` user directory `OR` run sql script entirely as `postgres`
+```
+sudo -i -u postgres
+```
+I moved the dump file - outside of the root directory. 
+
+Thinking about it now, I should've switched to user `postgres` with the above line instead of using `sudo -u postgres` anytime I wanted to use psql.
+
+Although it will be useful to run queries and `.sql` files, it might not be so ideal to live in it continuously. 
+
+2.  Adjusted the logic to surround the loading process in a conditional statement so it only prints success message if loading happens
+```
+echo "Loading SQL dump into $DATABASE ..."
+if sudo -u postgres psql -d "$DATABASE" -f "$DUMP"; then
+    echo "Data successfully loaded into '$DATABASE'."
+else
+    echo "Failed to load data into '$DATABASE'."
+    exit 1
+fi
+```
+
+## Running SQL Queries in the shell
+up next... 
