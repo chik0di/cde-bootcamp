@@ -15,3 +15,10 @@ Linux / Git Business Tasks
 [Documentation](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/doc.MD) 
 
 [Pipeline](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/pipeline.drawio.png) 
+
+## [Project 3](https://github.com/chik0di/cde-bootcamp/tree/main/docker-etl)
+Containerize ETL Pipeline and Database with Docker
+
+[Dockerfile](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/Dockerfile)
+
+[Bash Script for Automation](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/run.sh)
