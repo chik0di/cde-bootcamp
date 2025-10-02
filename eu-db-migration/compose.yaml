@@ -1,0 +1,36 @@
+# version: "3"
+
+services:
+  mysql-src:
+    image: mysql:8.0
+    container_name: mysql-src
+    restart: always
+    env_file:
+      - dotenv/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./film-db-dump.sql:/docker-entrypoint-initdb.d/film-db-dump.sql
+    networks:
+      - airbyte-network
+
+  postgres_dest:
+    image: postgres:15
+    container_name: postgres_dest
+    restart: always
+    env_file:
+      - dotenv/postgr.env
+    ports: 
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - airbyte-network
+
+volumes:
+  film-db-dump:
+  pg_data:
+
+networks:
+  airbyte-network:
+    driver: bridge
