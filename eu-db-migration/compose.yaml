@@ -1,20 +1,34 @@
 # version: "3"
 
 services:
-  mysql-src:
-    image: mysql:8.0
+
+  # local service
+  # mysql-src:
+  #   image: mysql:8.0
+  #   container_name: mysql-src
+  #   restart: always
+  #   env_file:
+  #     - dotenv/mysql.env
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./film-db-dump.sql:/docker-entrypoint-initdb.d/film-db-dump.sql
+  #   networks:
+  #     - airbyte-network
+
+
+  mysql-src: # for external users
+    image: chik0di/eu-film-db:legacy
     container_name: mysql-src
     restart: always
     env_file:
-      - dotenv/mysql.env
+       - dotenv/mysql.env
     ports:
       - "3306:3306"
-    volumes:
-      - ./film-db-dump.sql:/docker-entrypoint-initdb.d/film-db-dump.sql
     networks:
       - airbyte-network
 
-  postgres_dest:
+  postgres-dest:
     image: postgres:15
     container_name: postgres_dest
     restart: always
@@ -28,7 +42,7 @@ services:
       - airbyte-network
 
 volumes:
-  film-db-dump:
+  # film-db-dump:
   pg_data:
 
 networks:
