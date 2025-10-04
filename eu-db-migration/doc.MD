@@ -40,7 +40,7 @@ This project shows how these tools come together to handle data movement in a sc
 ## Setup
 1. [Setup Airbyte on Docker](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart#part-1-install-docker-desktop)
 
-2. Run the [Docker compose file]() to start both the `MySQL` source with the Film dataset already loaded, and the `postgres` destination
+2. Run the [Docker compose file](https://github.com/chik0di/cde-bootcamp/blob/main/eu-db-migration/compose.yaml) to start both the `MySQL` source with the Film dataset already loaded, and the `postgres` destination
 ```
 docker compose up -d
 ```
