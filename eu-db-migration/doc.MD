@@ -1,11 +1,11 @@
 # End-to-End Data Synchronization Pipeline 📡
 ## Foreword
 
-It began with the promise of something simple: run a few containers, open a browser, and let Airbyte bridge the gap between source and destination. But what should have been a straight line quickly twisted into a labyrinth. I found myself staring into walls of stack traces, Micronaut beans collapsing under the weight of missing keys, connections dying in silence with a blunt Recv failure: Connection reset by peer. Docker logs became my scripture, each line a riddle. Ports were mapped yet unreachable, services alive yet not listening, as if the very heart of Airbyte pulsed behind glass I could not break.
+It began with the promise of something simple: run a few containers, open a browser, and let Airbyte bridge the gap between source and destination. But what should have been a straight line quickly twisted into a labyrinth. Connections dying in silence with a blunt `Recv failure: Connection reset by peer`. Docker logs became my scripture, each line a riddle. Ports were mapped yet unreachable, services alive yet not listening, as if the very heart of Airbyte pulsed behind glass I could not break.
 
-I wrestled with shadows; Segment tracking demanding a key I never had, environment variables turning against me like mischievous doubles, servers waiting endlessly for namespaces that never came. One moment, I ran back to Airbyte Cloud to follow the SSH route but I knew I didn't know what I was doing, the local route was a much bearable frustration; the webapp curled into itself, refusing to answer on 8000. Every fix carried me forward just enough to discover a new kind of failure, until frustration felt like part of the design.
+I wrestled with shadows; one moment, I ran back to Airbyte Cloud to follow the SSH route but I knew I didn't know what I was doing, the local route was a much bearable frustration; the webapp curled into itself, refusing to answer on 8000. Every fix carried me forward just enough to discover a new kind of failure, until frustration felt like part of the design.
 
-And yet, in the haze of debugging and second-guessing, the answer had been sitting quietly where it always had been: the [documentation](https://docs.airbyte.com/). The [steps to setting up Airbyte on Docker](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart#part-1-install-docker-desktop) laid out in plain sight. And suddenly, it worked. The noise fell away, the UI opened, and the thing I had been fighting so hard to force into life simply breathed on its own.
+And yet, in the haze of debugging and second-guessing, the answer had been sitting quietly where it always had been: the [documentation](https://docs.airbyte.com/). The [steps to setting up Airbyte on Docker](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart#part-1-install-docker-desktop) laid out in plain sight. And eventually, it worked. The noise fell away, the UI opened, and the thing I had been fighting so hard to force into life simply breathed on its own.
 
 ## Overview 
 
@@ -38,7 +38,7 @@ This project shows how these tools come together to handle data movement in a sc
 - Docker → Containerization platform to run MySQL, PostgreSQL, and Airbyte locally
 
 ## Setup
-1. [Setup Airbyte on Docker](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart#part-1-install-docker-desktop)
+1. [Setup  Airbyte on Docker](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart#part-1-install-docker-desktop)
 
 2. Run the [Docker compose file](https://github.com/chik0di/cde-bootcamp/blob/main/eu-db-migration/compose.yaml) to start both the `MySQL` source with the Film dataset already loaded, and the `postgres` destination
 ```

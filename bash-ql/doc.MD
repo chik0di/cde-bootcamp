@@ -84,7 +84,7 @@ You should see something like psql (PostgreSQL) 16.3.
 ### Create posey database
 - method 1 (from bash)
 
-By default, it uses your Linux username as the PostgreSQL role. If you’re logged in as root, it will try to connect as the Postgres role root.
+By default, it uses your Linux username as the PostgreSQL role. If you’re logged in as root, it will try to connect as the Postgres role `root`.
 
 That’s why it's best practice to run it as the postgres user. 
 ```
@@ -163,15 +163,23 @@ All queries were written into separate `.sql` files and executed from the shell 
 
 Query: [qty-gt4000.sql](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/scripts/sql/qty-gt4000.sql)
 
+![Screenshot 1](../assets/images/qty-gt4000.png)
+
 2. Write a query that returns a list of orders where the standard_qty is zero and either the gloss_qty or poster_qty is over 1000.
 
 Query: [qty-gt1000.sql](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/scripts/sql/qty-gt1000.sql)
+
+![Screenshot 2](../assets/images/qty-gt1000.png)
 
 3. Provide a table that shows the region for each sales rep along with their associated accounts. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) by account name.
 
 Query: [sales-rep-obs.sql](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/scripts/sql/sales-rep-obs.sql)
 
+![Screenshot 3](../assets/images/sales-rep-obs.png)
+
 4. Find all the company names that start with a 'C' or 'W', and where the primary contact contains 'ana' or 'Ana', but does not contain 'eana'. 
 
 Query:
 [comp-wldcrd.sql](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/scripts/sql/comp-wldcrd.sql)
+
+![Screenshot 4](../assets/images/comp-wldcrd.png)
