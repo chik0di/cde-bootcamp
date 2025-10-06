@@ -1,0 +1,42 @@
+# version: "3.9"
+
+services:
+  postgres-nyt:
+    image: postgres:15
+    env_file:
+      - dotenv/postgr.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pipeline
+
+  extractload:
+    build: .
+    container_name: nyt-elt
+    depends_on:
+      - postgres-nyt
+    env_file:
+    - .env
+    networks:
+      - pipeline
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    container_name: dbt-transform
+    depends_on:
+      - postgres-nyt 
+    volumes:
+      - ./dbt/nyt_project:/usr/app
+      - $HOME/.dbt:/root/.dbt
+    networks:
+      - pipeline
+    working_dir: /usr/app
+
+networks:
+  pipeline:
+    driver: bridge
+
+volumes:
+  postgres_data:
