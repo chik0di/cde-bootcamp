@@ -9,7 +9,7 @@ Telecom Customer Complaint Conceptual Data Pipeline.
 [Pipeline]()
 
 
-## [Project 2](https://github.com/chik0di/cde-bootcamp/tree/main/bash-ql)
+## [Project 2](/docker-etl/)
 Linux / Git Business Tasks
 
 [Documentation](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/doc.MD) 
@@ -22,3 +22,55 @@ Containerize ETL Pipeline and Database with Docker
 [Dockerfile](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/Dockerfile)
 
 [Bash Script for Automation](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/run.sh)
+
+## [Project 4](/eu-db-migration/)
+End-to-End Data Synchronization Pipeline. 
+```
+                   ┌────────────────────────────────────────┐
+                   │              Docker                    │
+                   │────────────────────────────────────────│
+                   │                                        │
+                   │   ┌─────────┐                          │
+                   │   │  MySQL  │   (Source Database)      │
+                   │   └────┬────┘                          │
+                   │        │                               │
+                   │        ▼                               │
+                   │   ┌───────────┐                        │
+                   │   │           │                        │
+                   │   │  Airbyte  │───► PostgreSQL         │
+                   │   │           │    (Local Destination) │
+                   │   └───────────┘                        │
+                   │        │                               │
+                   │        ▼                               │
+                   │     Snowflake (Cloud Destination)      │
+                   │                                        │
+                   └────────────────────────────────────────┘
+```
+
+## [Project 5](/newyorktimes-elt/)
+Fully Managed New York Times ELT Pipeline
+```
+                     ┌──────────────────────────────────────────┐
+                     │                 Docker                   │
+                     │──────────────────────────────────────────│
+                     │                                          │
+                     │   ┌──────────────────────────┐            │
+                     │   │   Python (Extract & Load) │            │
+                     │   │  - Extracts data from API │            │
+                     │   │  - Loads into Postgres    │            │
+                     │   └────────────┬──────────────┘            │
+                     │                │                           │
+                     │                ▼                           │
+                     │      ┌────────────────────┐                 │
+                     │      │   PostgreSQL DB    │                 │
+                     │      │ (Staging Database) │                 │
+                     │      └─────────┬──────────┘                 │
+                     │                │                           │
+                     │                ▼                           │
+                     │      ┌────────────────────┐                 │
+                     │      │       DBT          │                 │
+                     │      │ (Transformations)  │                 │
+                     │      └────────────────────┘                 │
+                     │                                          │
+                     └──────────────────────────────────────────┘
+```
