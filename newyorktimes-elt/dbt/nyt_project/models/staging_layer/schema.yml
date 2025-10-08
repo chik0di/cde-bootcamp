@@ -1,0 +1,48 @@
+version: 2
+
+sources:
+  - name: public
+    description: "Source schema containing raw NYT data."
+    tables:
+      - name: staging_nyt
+        description: "Raw table loaded from the New York Times API."
+
+models:
+  - name: stager
+    description: "Selects relevant columns from the raw table and applies data type conversions."
+    columns:
+      - name: id
+        description: "The primary key for this table."
+        tests:
+          - unique
+          - not_null
+
+      - name: source
+        description: "The source of the article."
+
+      - name: published_date
+        description: "The publication date of the article."
+
+      - name: updated
+        description: "The date the article was last updated."
+
+      - name: section
+        description: "The section or category of the article."
+
+      - name: adx_keywords
+        description: "Keywords associated with the article."
+
+      - name: byline
+        description: "The author line for the article."
+
+      - name: type
+        description: "The type of content (e.g., Article, Interactive)."
+
+      - name: title
+        description: "The title of the article."
+
+      - name: abstract
+        description: "A short summary of the article."
+
+      - name: loaded_at
+        description: "The timestamp when the data was loaded into Postgres."
