@@ -1,7 +1,7 @@
 # version: "3.9"
 
 services:
-  postgres-nyt:
+  warehouse:
     image: postgres:15
     env_file:
       - dotenv/postgr.env
@@ -12,13 +12,13 @@ services:
     networks:
       - pipeline
 
-  extractload:
-    build: .
-    container_name: nyt-elt
+  app:
+    build: ./scripts
+    container_name: extractload-app
     depends_on:
-      - postgres-nyt
+      - warehouse
     env_file:
-    - .env
+    - dotenv/.env
     networks:
       - pipeline
 
@@ -26,14 +26,30 @@ services:
     image: ghcr.io/dbt-labs/dbt-postgres:latest
     container_name: dbt-transform
     depends_on:
-      - postgres-nyt 
+      - warehouse 
     volumes:
       - ./dbt/nyt_project:/usr/app
       - $HOME/.dbt:/root/.dbt
     networks:
       - pipeline
     working_dir: /usr/app
+    command: run
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: cron/Dockerfile
+    image: newyorktimes-elt-scheduler
+    container_name: nyt-scheduler
+    depends_on:
+      - app
+    env_file:
+      - dotenv/.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - pipeline
+      
 networks:
   pipeline:
     driver: bridge
