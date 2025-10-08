@@ -1,0 +1,2 @@
+# Run every day at 12 AM
+*/2 * * * * root /app/scheduler.sh >> /var/log/cron.log 2>&1
