@@ -25,8 +25,8 @@ WHERE
 		lower(word) 
 			NOT IN ('the', 'a', 'an', 'and', 'in', 'on', 'have',
 					'or', 'but', 'do', 'to', 'of', 'why', 'from',
-					'has', 'at', 'is', 'after', 'he', 'his', 'her', 'it', 
-						'been', 'so')
+					'has', 'at', 'is', 'was', 'after', 'he', 'his', 
+					'her', 'him', 'she', 'it', 'been', 'so', 'before')
 
 GROUP BY 
 		d.year, 
