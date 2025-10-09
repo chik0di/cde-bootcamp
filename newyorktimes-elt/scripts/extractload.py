@@ -42,12 +42,15 @@ def execute():
     print(f"DataFrame columns: {df.columns.tolist()}")
     print(f"DataFrame dtypes:\n{df.dtypes}")
 
+    # try:
     df.to_sql(
         'staging_nyt',
         con=engine,
-        if_exists='replace',
+        if_exists='append',
         index=False
     )
+    # except Exception as e:
+    #     if "does not exist" 
 
     print(f"Successfully loaded articles into 'staging_nyt'")
 
