@@ -1,0 +1,3 @@
+.gitignore
+dbt/logs
+dbt/nyt_project/logs
