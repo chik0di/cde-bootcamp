@@ -13,7 +13,7 @@ services:
       - pipeline
 
   app:
-    build: ./scripts
+    image: chik0di/newyorktimes-app
     container_name: extractload-app
     depends_on:
       - warehouse
@@ -23,23 +23,17 @@ services:
       - pipeline
 
   dbt:
-    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    image: chik0di/newyorktimes-dbt
     container_name: dbt-transform
     depends_on:
       - warehouse 
-    volumes:
-      - ./dbt/nyt_project:/usr/app
-      - $HOME/.dbt:/root/.dbt
     networks:
       - pipeline
-    working_dir: /usr/app
-    command: run
+    working_dir: /app
+    entrypoint: ["/app/dbt_entrypoint.sh"]
 
   scheduler:
-    build:
-      context: .
-      dockerfile: cron/Dockerfile
-    image: newyorktimes-elt-scheduler
+    image: chik0di/newyorktimes-elt-scheduler
     container_name: nyt-scheduler
     depends_on:
       - app
@@ -47,6 +41,8 @@ services:
       - dotenv/.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
     networks:
       - pipeline
       
