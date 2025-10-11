@@ -1,30 +1,90 @@
 # CDE Bootcamp
 This repo serves as a record of my learning journey through the CDE bootcamp, showcasing progress in data engineering concepts, tools, and real-world problem solving.
 
-## [Project 1](https://github.com/chik0di/cde-bootcamp/tree/main/conceptual-etl)
+Click on a Project heading to view project.
+
+## [Project 1](/conceptual-etl)
 Telecom Customer Complaint Conceptual Data Pipeline.
 
 [Problem](https://github.com/chik0di/cde-bootcamp/blob/main/conceptual-etl/context.MD)
 
-[Pipeline]()
+[Architecure](/conceptual-etl/architecture.drawio.png)
 
 
-## [Project 2](/docker-etl/)
+## [Project 2](/bash-ql/)
 Linux / Git Business Tasks
 
-[Documentation](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/doc.MD) 
+[Documentation](/bash-ql/doc.MD) 
+```
+                     ┌─────────────────────────────────────────────────────┐
+                     │                 Local Environment                   │
+                     │─────────────────────────────────────────────────────│
+                     │                                                     │
+                     │   ┌────────────────────────────────────────────┐    │
+                     │   │              Bash ETL Scripts              │    │
+                     │   │────────────────────────────────────────────│    │
+                     │   │                                            │    │
+                     │   │ ┌───────────────┐   ┌────────────────────┐ │    │
+                     │   │ │   raw         │   │ transformed        │ │    │
+                     │   | │ (Extracted)   │──►│ (Cleaned/Processed)─┐|    │
+                     │   │ └───────────────┘   └────────────────────┘│|    │
+                     │   │                                           ││    │
+                     │   │            ┌────────────────────┐         ││    │
+                     │   │            │ gold               │         ││    │
+                     │   │            │ (Final Output)     │◄────────┘│    │
+                     │   │            └────────────────────┘          │    │
+                     │   └────────────────────────────────────────────┘    │
+                     │                  │                                  │
+                     │                  ▼                                  │
+                     │       ┌────────────────────────────┐                │
+                     │       │  PostgreSQL (Local/Server) │                │
+                     │       │  (Stores processed data)   │                │
+                     │       └────────────────────────────┘                │
+                     │                                                     │
+                     │      ┌────────────────────────────┐                 │
+                     │      │        SQL Folder          │                 │
+                     │      │ - DML Queries              │                 │
+                     │      │ - Analysis Scripts         │                 │
+                     │      └────────────────────────────┘                 │
+                     │                                                     |
+                     └─────────────────────────────────────────────────────┘
+```
 
-[Pipeline](https://github.com/chik0di/cde-bootcamp/blob/main/bash-ql/pipeline.drawio.png) 
-
-## [Project 3](https://github.com/chik0di/cde-bootcamp/tree/main/docker-etl)
+## [Project 3](/docker-etl/)
 Containerize ETL Pipeline and Database with Docker
 
-[Dockerfile](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/Dockerfile)
+[Documentation](/docker-etl/doc.MD)
 
-[Bash Script for Automation](https://github.com/chik0di/cde-bootcamp/blob/main/docker-etl/run.sh)
+```
+                     ┌──────────────────────────────────────────────────────────┐
+                     │                        Docker                            │
+                     │──────────────────────────────────────────────────────────│
+                     │                                                          │
+                     │   ┌────────────────────────────┐                         │
+                     │   │     Python ETL Container   │                         │
+                     │   │ - Extract data             │                         │
+                     │   │ - Transform data (cleaning)│                         │
+                     │   │ - Load into PostgreSQL     │                         │
+                     │   └──────────────┬─────────────┘                         │
+                     │                  │                                       │
+                     │                  ▼                                       │
+                     │       ┌────────────────────────────┐                     │
+                     │       │    PostgreSQL Database     │                     │
+                     │       │  (Stores processed data)   │                     │
+                     │       └────────────────────────────┘                     │
+                     │                                                          │
+                     │   ┌────────────────────────────┐                         │
+                     │   │         Bash Script        │                         │
+                     │   │ - Builds Docker images     │                         │
+                     │   │ - Starts both containers   │                         │
+                     │   │ - Automates full workflow  │                         │
+                     │   └────────────────────────────┘                         │
+                     │                                                          │
+                     └──────────────────────────────────────────────────────────┘
+```
 
 ## [Project 4](/eu-db-migration/)
-End-to-End Data Synchronization Pipeline. 
+Fully Managed Data Synchronization Pipeline. 
 ```
                    ┌────────────────────────────────────────┐
                    │              Docker                    │
@@ -39,38 +99,39 @@ End-to-End Data Synchronization Pipeline.
                    │   │           │                        │
                    │   │  Airbyte  │───► PostgreSQL         │
                    │   │           │    (Local Destination) │
-                   │   └───────────┘                        │
-                   │        │                               │
-                   │        ▼                               │
-                   │     Snowflake (Cloud Destination)      │
-                   │                                        │
-                   └────────────────────────────────────────┘
+                   │   └─────|─────┘                        │
+                   │─────────|──────────────────────────────│
+                             |                            
+                             ▼ 
+                     Snowflake (Cloud Destination)     
+                                                         
 ```
 
 ## [Project 5](/newyorktimes-elt/)
-Fully Managed New York Times ELT Pipeline
+End-to-End New York Times ELT Pipeline
 ```
-                     ┌──────────────────────────────────────────┐
-                     │                 Docker                   │
-                     │──────────────────────────────────────────│
-                     │                                          │
-                     │   ┌──────────────────────────┐            │
-                     │   │   Python (Extract & Load) │            │
-                     │   │  - Extracts data from API │            │
-                     │   │  - Loads into Postgres    │            │
-                     │   └────────────┬──────────────┘            │
-                     │                │                           │
-                     │                ▼                           │
-                     │      ┌────────────────────┐                 │
-                     │      │   PostgreSQL DB    │                 │
-                     │      │ (Staging Database) │                 │
-                     │      └─────────┬──────────┘                 │
-                     │                │                           │
-                     │                ▼                           │
-                     │      ┌────────────────────┐                 │
-                     │      │       DBT          │                 │
-                     │      │ (Transformations)  │                 │
-                     │      └────────────────────┘                 │
-                     │                                          │
-                     └──────────────────────────────────────────┘
+                            ┌─────────────────────────────┐
+                            │       Cron Container        │
+                            │ (Runs pipeline daily @ 12AM)│
+                            └────────────┬────────────────┘
+                                         │
+                                         ▼
+                        ┌──────────────────────────────────────┐
+                        │           ELT Container              │
+                        │ (Fetches data from NYT API & loads   │
+                        │   into PostgreSQL 'staging_nyt')     │
+                        └────────────────┬─────────────────────┘
+                                         │
+                                         ▼
+                             ┌───────────────────────┐
+                             │     PostgreSQL DB     │
+                             │  (Stores raw + model) │
+                             └──────────┬────────────┘
+                                        │
+                                        ▼
+                            ┌───────────────────────┐
+                            │         dbt           │
+                            │ (Transforms, cleans,  │
+                            │  and models the data) │
+                            └───────────────────────┘
 ```
