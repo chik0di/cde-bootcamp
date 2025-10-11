@@ -40,5 +40,3 @@ The pipeline typically runs where the compute + storage are located, often close
 
 ### How will you make it available in production?
 The pipeline will be fully written as code and stored in version control. This ensures all  changes are tracked, tested, and automatically deployed to the compute environment through continuous integration and deployment (CI/CD). 
-
-![Fun GIF](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2JtZ2Z5aGw4YWxxaHFnZWpzdDNvOXp2MHQ1MXBkcnJpZXc3NzV2aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zZzPJn8QoMZKfSaIQs/giphy.gif)
