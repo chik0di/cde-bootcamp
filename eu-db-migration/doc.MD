@@ -81,9 +81,6 @@ To confirm the syncs:
 
 This verifies that data has been successfully moved from MySQL → PostgreSQL and MySQL → Snowflake.
 
-## Architecture
-
-![Architectural diagram](../assets/images/architecture-eufilmdb.jpeg)
 
 ## Future Improvements
 
