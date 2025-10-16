@@ -12,7 +12,7 @@
 
     c. AWS
 
-2. 
+2. Create AWS User and write policy that grants this User permissions to the Bucket and dataset. The `s3:ListBucket` and `s3:GetObject` permissions will do. 
 2. Setup Snowflake environment and grant appropriate permissions. 
 ```
 use role accountadmin;
