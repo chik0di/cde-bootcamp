@@ -1,4 +1,5 @@
 # CoreSentiment: Wikipedia Pageviews Data Pipeline
+#### [problem document](https://docs.google.com/document/d/1WjDimpENYnB9B_4EmAiWaxAlR_Qslw4Lsq-8YCHV9UE/edit?tab=t.0)
 ## Project Overview
 This project demonstrates how to orchestrate a data pipeline using Apache Airflow to automate the extraction, transformation, and analysis of Wikipedia pageview data for five major tech companies — Amazon, Apple, Facebook, Google, and Microsoft.
 
@@ -25,17 +26,17 @@ airflow/
 ## Pipeline Overview
 ### Task 1 — Download and Extract
 
-- A BashOperator runs curl_unzip.sh, which:
+- A [BashOperator](https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/bash.html#bashoperator) runs [curl_unzip.sh](/wikipedia-pageviews/scripts/curl_unzip.sh), which:
 
-- Downloads a specific hour’s Wikimedia pageview data (.gz) from the official dump.
+- Downloads a specific hour’s Wikimedia pageview data (.gz) from the [official dumps](https://dumps.wikimedia.org/other/pageviews/).
 
 - Extracts it into a .txt file for downstream processing.
 
-- Ensures the file is stored in a dedicated viewzone/ directory.
+- Ensures the file is stored in a dedicated [viewzone/](/wikipedia-pageviews/viewzone) directory.
 
 ### Task 2 — Transform and Filter
 
-- A PythonOperator runs wikitran.py, which:
+- A PythonOperator runs [wikitran.py](/wikipedia-pageviews/scripts/wikitran.py), which:
 
 - Reads the extracted .txt file line by line.
 
@@ -43,7 +44,7 @@ airflow/
 
 - Extracts key fields such as domain_code, page_title, view_count, and response_time.
 
-- Writes the filtered results to a new text file.
+- Writes the filtered results to a [new text file](/wikipedia-pageviews/viewzone/pageviews-20251011-180000_filtered.txt).
 
 #### Why I did not restrict filtering to English-only domains (en.)
 Wikipedia is multilingual, and company pageviews come from users worldwide.
@@ -52,9 +53,9 @@ By filtering only by page title, the pipeline captures total global engagement, 
 
 ### Task 3 — Load to Database
 
-- A PythonOperator runs load_to_sqlite.py, which:
+- A PythonOperator runs [sqlite_dump.py](/wikipedia-pageviews/scripts/sqlite_dump.py), which:
 
-- Creates a local SQLite database (pageviews.db) if it doesn’t already exist.
+- Creates a local [SQLite database](/wikipedia-pageviews/databases/wikimedia.db) if it doesn’t already exist.
 
 - Creates a table company_pageviews.
 
@@ -66,15 +67,14 @@ SQLite is used because it’s lightweight, serverless, and requires no external 
 
 ### Task 4 — Query and Analyze
 
-- A PythonOperator runs query_top_company.py, which:
+- A PythonOperator runs [query_db.py](/wikipedia-pageviews/scripts/query_db.py), which:
 
-- Connects to the SQLite database.
+- Connects to the [SQLite database](/wikipedia-pageviews/databases/wikimedia.db).
 
 - Executes a query that aggregates view counts per company.
 
 - Logs the company with the highest total views directly to the Airflow UI.
 
-This shows Airflow’s capability to perform automated analytical steps as part of an end-to-end workflow.
 
 ## Key Features and Best Practices
 
@@ -97,6 +97,7 @@ This POC can evolve into a production-grade sentiment analysis pipeline, integra
 
 - Automated daily runs using Airflow schedules.
 
+- Integration with external data (e.g., stock prices) for correlation analysis.
 
 ### 2. Implement XComs for Task Communication
 
@@ -117,7 +118,7 @@ Future versions could load data into:
 
 ### 4. Add Data Validation and Quality Checks
 
-Use Airflow Sensors or Python checks to ensure:
+Use Airflow Sensors to ensure:
 
 - Files exist before processing.
 
