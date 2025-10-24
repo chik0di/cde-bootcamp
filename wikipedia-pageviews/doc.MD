@@ -84,9 +84,13 @@ SQLite is used because it’s lightweight, serverless, and requires no external 
 
 - Logging – Each task writes detailed logs visible in the Airflow UI.
 
-- Global Perspective – Captures all domains to reflect worldwide pageview sentiment.
+- Global Perspective – Captures all domains to reflect worldwide public interest sentiment.
 
 - Modularity – Each script performs one well-defined function (Extract, Transform, Load, Query).
+
+- Local Database Integration – Loads processed data into a lightweight SQLite database, suitable for quick testing and prototyping before scaling.
+
+- Retries and Resilience – Each task includes built-in retry logic (retries=2, retry_delay=1 minute), ensuring the pipeline recovers gracefully from transient failures.
 
 ## Future Improvements
 ### 1. Expand POC into Full-Scale Project
