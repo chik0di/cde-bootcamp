@@ -1,18 +1,16 @@
 # CDE Bootcamp
 This repo serves as a record of my learning journey through the CDE bootcamp, showcasing progress in data engineering concepts, tools, and real-world problem solving.
 
-Click on a Project heading to view project.
+### Click on a Project heading to view project.
 
-## [Project 1](/conceptual-etl)
-Telecom Customer Complaint Conceptual Data Pipeline.
+## [1. Telecom Customer Complaint Conceptual Data Pipeline.](/conceptual-etl)
 
 [Problem](https://github.com/chik0di/cde-bootcamp/blob/main/conceptual-etl/context.MD)
 
 [Architecure](/conceptual-etl/architecture.drawio.png)
 
 
-## [Project 2](/bash-ql/)
-Linux / Git Business Tasks
+## [2. Linux / Git Business Tasks](/bash-ql/)
 
 [Documentation](/bash-ql/doc.MD) 
 ```
@@ -37,7 +35,7 @@ Linux / Git Business Tasks
                      │                  │                                  │
                      │                  ▼                                  │
                      │       ┌────────────────────────────┐                │
-                     │       │  PostgreSQL (Local/Server) │                │
+                     │       │        PostgreSQL          │                │
                      │       │  (Stores processed data)   │                │
                      │       └────────────────────────────┘                │
                      │                                                     │
@@ -50,8 +48,7 @@ Linux / Git Business Tasks
                      └─────────────────────────────────────────────────────┘
 ```
 
-## [Project 3](/docker-etl/)
-Containerize ETL Pipeline and Database with Docker
+## [3. Simple ETL Pipeline: Automated & Containerized ](/docker-etl/)
 
 [Documentation](/docker-etl/doc.MD)
 
@@ -83,8 +80,8 @@ Containerize ETL Pipeline and Database with Docker
                      └──────────────────────────────────────────────────────────┘
 ```
 
-## [Project 4](/eu-db-migration/)
-Fully Managed Data Synchronization Pipeline. 
+## [4. Fully Managed Data Synchronization Pipeline](/eu-db-migration/)
+ 
 ```
                    ┌────────────────────────────────────────┐
                    │              Docker                    │
@@ -107,31 +104,46 @@ Fully Managed Data Synchronization Pipeline.
                                                          
 ```
 
-## [Project 5](/newyorktimes-elt/)
-End-to-End New York Times ELT Pipeline
+## [5. End-to-End New York Times ELT Pipeline](/newyorktimes-elt/)
+
 ```
-                            ┌─────────────────────────────┐
-                            │       Cron Container        │
-                            │ (Runs pipeline daily @ 12AM)│
-                            └────────────┬────────────────┘
-                                         │
-                                         ▼
-                        ┌──────────────────────────────────────┐
-                        │           ELT Container              │
-                        │ (Fetches data from NYT API & loads   │
-                        │   into PostgreSQL 'staging_nyt')     │
-                        └────────────────┬─────────────────────┘
-                                         │
-                                         ▼
-                             ┌───────────────────────┐
-                             │     PostgreSQL DB     │
-                             │  (Stores raw + model) │
-                             └──────────┬────────────┘
-                                        │
-                                        ▼
-                            ┌───────────────────────┐
-                            │         dbt           │
-                            │ (Transforms, cleans,  │
-                            │  and models the data) │
-                            └───────────────────────┘
+
+                     ┌─────────────────────────────────────────────────────────────┐
+                     │                          Docker                             │
+                     │─────────────────────────────────────────────────────────────│
+                     │                                                             │
+                     │   ┌────────────────────────────┐                            │
+                     │   │      Cron Scheduler        │                            │
+                     │   │ (Triggers ELT periodically)│                            │
+                     │   └──────────────┬─────────────┘                            │
+                     │                  │                                          │
+                     │                  ▼                                          │
+                     │   ┌────────────────────────────┐                            │
+                     │   │  Python (Extract & Load)   │                            │
+                     │   │ - Extracts data from API   │                            │
+                     │   │ - Loads into Postgres      │                            │
+                     │   └──────────────┬─────────────┘                            │
+                     │                  │                                          │
+                     │                  ▼                                          │
+                     │       ┌──────────────────────┐       ┌──────────────────────|
+                     │       │   PostgreSQL DB      │◄────►│         DBT          │|
+                     │       │ (Staging + Warehouse)│       │(SQL Transformations)│|
+                     │       └──────────┬───────────┘       └──────────────────────┘
+                     │                  │                                          |
+                     │                  ▼                                          |
+                     │       ┌──────────────────────┐                              |
+                     │       │      Power BI        │                              |
+                     │       │ (Data Visualization) │                              |
+                     │       └──────────────────────┘                              |
+                     │                                                             |
+                     └─────────────────────────────────────────────────────────────┘
+```
+
+## [6. Wikipedia Pageviews Data Pipeline](/wikipedia-pageviews/)
+[Documentation](/wikipedia-pageviews/doc.MD)
+```
+DAG
+    A[Download & Unzip (BashOperator)] --> B[Filter Companies (PythonOperator)]
+    B --> C[Load into SQLite (PythonOperator)]
+    C --> D[Query Top Company (PythonOperator)]
 ```
