@@ -1,0 +1,18 @@
+# Data Synchronization Pipeline 
+eu-db-migration/dotenv
+eu-db-migration/film-db-dump.sql
+
+# New York Time ELT Pipeline
+newyorktimes-elt/dotenv
+newyorktimes-elt/dbt/nyt_project/models/example
+newyorktimes-elt/dbt/logs
+newyorktimes-elt/dbt/nyt_project/logs
+newyorktimes-elt/dbt/nyt_project/target
+newyorktimes-elt/dbt/nyt_project/.gitignore
+
+# Wikipedia Pageviews
+wikipedia-pageviews/scripts/__pycache__
+wikipedia-pageviews/viewzone/*
+!wikipedia-pageviews/viewzone/*filtered.txt*
+
+
