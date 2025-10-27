@@ -15,4 +15,6 @@ wikipedia-pageviews/scripts/__pycache__
 wikipedia-pageviews/viewzone/*
 !wikipedia-pageviews/viewzone/*filtered.txt*
 
+# Superstore Data Modelin
+superstore_modelling/airflow/.dbt
 
