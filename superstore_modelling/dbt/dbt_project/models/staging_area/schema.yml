@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+  - name: dbt_schema
+    description: "Source schema containing the superstore data"
+    tables:
+      - name: superstore
+        description: "The superstore raw table"
+
+models:
+  - name: stg_superstore
+    description: "Staging model transforming and standardizing the superstore data with a staging timestamp"
+    columns:
+      - name: row_id
+        description: "Unique identifier for each record"
+      - name: order_id
+        description: "Unique identifier for each order"
+      - name: order_date
+        description: "The date when the order was placed"
+      - name: ship_date
+        description: "The date when the order was shipped"
+      - name: ship_mode
+        description: "The shipping mode used for the order"
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: customer_name
+        description: "Name of the customer"
+      - name: segment
+        description: "Customer segment"
+      - name: country
+        description: "Country of the order"
+      - name: city
+        description: "City of the order"
+      - name: state
+        description: "State of the order"
+      - name: postal_code
+        description: "Postal code of the order"
+      - name: region
+        description: "Region of the order"
+      - name: product_id
+        description: "Unique identifier for the product"
+      - name: category
+        description: "Product category"
+      - name: sub_category
+        description: "Product sub-category"
+      - name: product_name
+        description: "Name of the product"
+      - name: sales
+        description: "Sales amount for the order line"
+      - name: quantity
+        description: "Quantity of items ordered"
+      - name: discount
+        description: "Discount applied on the order line"
+      - name: profit
+        description: "Profit earned on the order line"
+      - name: staged_at
+        description: "Timestamp indicating when the record was staged (loaded via now())"
