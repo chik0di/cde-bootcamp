@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: factSales
+    description: "Fact table capturing all sales transactions with foreign keys to dimensions."
+    columns:
+      - name: order_key
+        description: "Foreign key to Order dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('orderDim')
+                field: order_key
+          - not_null
+      - name: product_id
+        description: "Foreign key to Product dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('productDim')
+                field: product_id
+      - name: customer_id
+        description: "Foreign key to Customer dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('customerDim')
+                field: customer_id
+      - name: sales
+        description: "Total sales amount for the transaction."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "sales >= 0"
+      - name: profit
+        description: "Profit amount for the transaction."
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "profit >= 0"
+      - name: quantity
+        description: "Number of units sold."
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "quantity >= 0"
