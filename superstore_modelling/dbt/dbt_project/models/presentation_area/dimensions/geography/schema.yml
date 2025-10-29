@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: countryDim
+    description: "Contains distinct countries from the Superstore dataset."
+    columns:
+      - name: country_id
+        description: "Unique identifier for each country."
+        tests:
+          - not_null
+          - unique
+      - name: country
+        description: "Country name."
+
+  - name: regionDim
+    description: "Contains distinct regions per country."
+    columns:
+      - name: region_id
+        description: "Unique identifier for each region."
+        tests:
+          - not_null
+          - unique
+      - name: region
+        description: "Region name."
+      - name: country_id
+        description: "Foreign key to the Country dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('countryDim')
+                field: country_id
+
+  - name: stateDim
+    description: "Contains distinct states per region and country."
+    columns:
+      - name: state_id
+        description: "Unique identifier for each state."
+        tests:
+          - not_null
+          - unique
+      - name: state
+        description: "State name."
+      - name: region_id
+        description: "Foreign key to Region dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('regionDim')
+                field: region_id
+
+  - name: cityDim
+    description: "Contains distinct cities per state and country."
+    columns:
+      - name: city_id
+        description: "Unique identifier for each city."
+        tests:
+          - not_null
+          - unique
+      - name: city
+        description: "City name."
+      - name: state_id
+        description: "Foreign key to State dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stateDim')
+                field: state_id
+
+  - name: geographyDim
+    description: "Combines postal code and all location hierarchies (city, state, region, country)."
+    columns:
+      - name: geography_id
+        description: "Unique identifier for each geographical location."
+        tests:
+          - not_null
+          - unique
+      - name: postal_code
+        description: "Postal code of the location."
+      - name: city_id
+        description: "Foreign key to City dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('cityDim')
+                field: city_id
