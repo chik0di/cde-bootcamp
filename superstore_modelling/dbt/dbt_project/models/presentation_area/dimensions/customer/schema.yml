@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: segmentDim
+    description: "Contains distinct customer segments (Consumer, Corporate, Home Office)."
+    columns:
+      - name: segment_id
+        description: "Unique identifier for each segment."
+        tests:
+          - not_null
+          - unique
+      - name: segment
+        description: "Segment name."
+
+  - name: customerDim
+    description: "Contains customer details with reference to segment."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer."
+        tests:
+          - not_null
+          - unique
+      - name: source_customer_id
+        description: "Original customer identifier from source data."
+      - name: customer_name
+        description: "Full name of the customer."
+      - name: segment_id
+        description: "Foreign key to Segment dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('segmentDim')
+                field: segment_id
