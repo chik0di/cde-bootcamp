@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: categoryDim
+    description: "Contains distinct product categories."
+    columns:
+      - name: category_id
+        description: "Unique identifier for each category."
+        tests:
+          - not_null
+          - unique
+      - name: category
+        description: "Product category name."
+
+  - name: subCategoryDim
+    description: "Contains distinct product sub-categories mapped to categories."
+    columns:
+      - name: sub_category_id
+        description: "Unique identifier for each sub-category."
+        tests:
+          - not_null
+          - unique
+      - name: sub_category
+        description: "Sub-category name."
+      - name: category_id
+        description: "Foreign key to Category dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('categoryDim')
+                field: category_id
+
+  - name: productDim
+    description: "Contains product-level details mapped to sub-category."
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product."
+        tests:
+          - not_null
+          - unique
+      - name: source_product_id
+        description: "Original product ID from source data."
+      - name: product_name
+        description: "Name of the product."
+      - name: sub_category_id
+        description: "Foreign key to SubCategory dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('subCategoryDim')
+                field: sub_category_id
