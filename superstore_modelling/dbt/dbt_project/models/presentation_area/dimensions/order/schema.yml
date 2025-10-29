@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: shipModeDim
+    description: "Contains distinct shipping modes."
+    columns:
+      - name: ship_mode_id
+        description: "Unique identifier for each ship mode."
+        tests:
+          - not_null
+          - unique
+      - name: ship_mode
+        description: "Name of the shipping mode."
+
+  - name: orderDim
+    description: "Contains order-level details like order and ship dates, linked to ship mode."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+        tests:
+          - not_null
+          - unique
+      - name: source_order_id
+        description: "Original order ID from source data."
+      - name: order_date
+        description: "Date the order was placed."
+      - name: ship_date
+        description: "Date the order was shipped."
+      - name: ship_mode_id
+        description: "Foreign key to Ship Mode dimension."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('shipModeDim')
+                field: ship_mode_id
