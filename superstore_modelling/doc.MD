@@ -93,7 +93,7 @@ I initialized a dbt project using:
 ```
 dbt init dbt_project
 ```
-The dbt project was organized into two key areas:
+The dbt_project models was organized into two key areas:
 
 - [Staging Area](/superstore_modelling/dbt/dbt_project/models/staging_area/stg_superstore.sql) – for cleaning and standardizing raw data
 
@@ -107,7 +107,7 @@ Inside the presentation area, I defined dimension models for:
 
 and fact models under the [facts](/superstore_modelling/dbt/dbt_project/models/presentation_area/facts/) folder.
 
-Additionally, to ensure data quality and integrity across all layers of the model, I implemented tests and documentation using schema.yml files within each subfolder (e.g., Customer, Geography, Order, Product, and Facts).
+Additionally, to ensure data quality and integrity across all layers of the model, I implemented tests and documentation using *schema.yml* files within each subfolder (i.e., [Customer](./dbt/dbt_project/models/presentation_area/dimensions/customer/schema.yml), [Geography](./dbt/dbt_project/models/presentation_area/dimensions/geography/schema.yml), [Order](./dbt/dbt_project/models/presentation_area/dimensions/order/schema.yml), [Product](./dbt/dbt_project/models/presentation_area/dimensions/product/schema.yml), and [Facts](./dbt/dbt_project/models/presentation_area/facts/schema.yml)).
 
 Each schema.yml file served two purposes:
 
@@ -140,9 +140,10 @@ For example:
 
 By integrating these YAML-based tests, dbt automatically validated data quality every time a model was built or updated, ensuring that the transformation logic remained reliable over time.
 
+#### getting dbt ready for airflow
 To ensure reproducibility and make it easier for Airflow to trigger dbt runs, I containerized the dbt project.
 
-The [Dockerfile](/superstore_modelling/dbt/dbt_project/Dockerfile) is located inside the [dbt_project](/superstore_modelling/dbt/dbt_project/) folder, since the image was built in that context. It defines how the dbt environment is built, including the dependencies and entrypoint command that runs `dbt run`. Once built, the image was [pushed to Docker Hub](https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/) so that Airflow could later pull and run it.
+The [Dockerfile](/superstore_modelling/dbt/dbt_project/Dockerfile) is located inside the [dbt_project](/superstore_modelling/dbt/dbt_project/) folder, since the image was built in that context. It defines how the dbt environment is built, including the dependencies and entrypoint command that runs `dbt run`. Once built, the [image](https://hub.docker.com/repository/docker/chik0di/dbt/) was [pushed to Docker Hub](https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/) so that Airflow could later pull and run it.
 
 This setup made it possible for Airflow to trigger dbt runs as part of a broader ETL pipeline — allowing automated testing, lineage tracking, and version-controlled transformations from raw to business-ready data.
 
@@ -158,7 +159,9 @@ The [DAG](/superstore_modelling/airflow/workflow.py) contained two major tasks t
     ```
     ProgrammingError: 091003 (22000): 01bfc1c5-0000-6f8b-0000-78750005b006: Failure using stage area. Cause: [Forbidden (Status Code: 403; Error Code: 403 Forbidden)]
     ```
-    **Meaning**: Snowflake does not have the necessary permissions to access the external stage or bucket (i.e., Amazon S3).
+    **Meaning**: Snowflake does not have the necessary permissions to access the external stage or bucket (i.e., Amazon S3). Confirm that your policy grants access to both the bucket and the particular file you want to reach.
+
+    
 
     Furthermore, Incorrectly configured file format parameters in Snowflake could lead to errors like:
 
@@ -170,7 +173,7 @@ The [DAG](/superstore_modelling/airflow/workflow.py) contained two major tasks t
 
     **Fix**: I resolved this by explicitly specifying the file encoding in the Snowflake *file_format* param:    `ENCODING = 'ISO8859-1'` ensuring Snowflake correctly interprets non-UTF8 characters during data load.
 
-- **Running dbt transformations** – Using the *DockerOperator*, Airflow pulled the [prebuilt dbt image](https://hub.docker.com/repository/docker/chik0di/dbt/) from Docker Hub and executed it. The first action within the container was a `dbt run`, which executed all transformations and tests defined in the dbt project. You must also [set up Docker connection](https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/connections/docker.html) in the Airflow UI. However, using the [*DockerOperator*](https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/_api/airflow/providers/docker/operators/docker/index.html#airflow.providers.docker.operators.docker.DockerOperator) in the [DAG](/superstore_modelling/airflow/workflow.py) got tricky at the *docker_url* whose definition clearly stated:
+- **Running dbt transformations** – Using the [*DockerOperator*](https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/_api/airflow/providers/docker/operators/docker/index.html#airflow.providers.docker.operators.docker.DockerOperator), Airflow pulled the [prebuilt dbt image](https://hub.docker.com/repository/docker/chik0di/dbt/) from Docker Hub and executed it. The first action within the container was a `dbt run`, which executed all transformations and tests defined in the dbt project. You must also [set up Docker connection](https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/connections/docker.html) in the Airflow UI. However, using the *DockerOperator* in the [DAG](/superstore_modelling/airflow/workflow.py) got tricky at the *docker_url* param whose [definition](https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/_api/airflow/providers/docker/operators/docker/index.html#airflow.providers.docker.operators.docker.DockerOperator) clearly stated:
     ```
         param docker_url: URL or list of URLs of the host(s) running the docker daemon.
         Default is the value of the ``DOCKER_HOST`` environment variable or unix://var/run/docker.sock
@@ -192,12 +195,3 @@ By handling both tasks within one DAG, Airflow provided a single orchestration l
 
 A planned improvement involves adding a notification system as a final Airflow task (the third task in the DAG).
 Notifications would trigger via Slack or email, reporting task status, failure messages, and timestamps. This will enhance observability and enable faster troubleshooting and response to failed runs.
-
-## Some Errors Encountered, Troubleshooting Steps & Best Practices
-
-
-Resources:
-
-https://hevodata.com/learn/airflow-snowflake/
-
-https://stackoverflow.com/questions/64890144/how-to-run-dbt-in-airflow-without-copying-our-repo
