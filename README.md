@@ -13,72 +13,12 @@ This repo serves as a record of my learning journey through the CDE bootcamp, sh
 ## [2. Linux / Git Business Tasks](/bash-ql/)
 
 [Documentation](/bash-ql/doc.MD) 
-```
-                     ┌─────────────────────────────────────────────────────┐
-                     │                 Local Environment                   │
-                     │─────────────────────────────────────────────────────│
-                     │                                                     │
-                     │   ┌────────────────────────────────────────────┐    │
-                     │   │              Bash ETL Scripts              │    │
-                     │   │────────────────────────────────────────────│    │
-                     │   │                                            │    │
-                     │   │ ┌───────────────┐   ┌────────────────────┐ │    │
-                     │   │ │   raw         │   │ transformed        │ │    │
-                     │   | │ (Extracted)   │──►│ (Cleaned/Processed)─┐|    │
-                     │   │ └───────────────┘   └────────────────────┘│|    │
-                     │   │                                           ││    │
-                     │   │            ┌────────────────────┐         ││    │
-                     │   │            │ gold               │         ││    │
-                     │   │            │ (Final Output)     │◄────────┘│    │
-                     │   │            └────────────────────┘          │    │
-                     │   └────────────────────────────────────────────┘    │
-                     │                  │                                  │
-                     │                  ▼                                  │
-                     │       ┌────────────────────────────┐                │
-                     │       │        PostgreSQL          │                │
-                     │       │  (Stores processed data)   │                │
-                     │       └────────────────────────────┘                │
-                     │                                                     │
-                     │      ┌────────────────────────────┐                 │
-                     │      │        SQL Folder          │                 │
-                     │      │ - DML Queries              │                 │
-                     │      │ - Analysis Scripts         │                 │
-                     │      └────────────────────────────┘                 │
-                     │                                                     |
-                     └─────────────────────────────────────────────────────┘
-```
+[Architecture](/bash-ql/architecture.drawio.png)
+
 
 ## [3. Simple ETL Pipeline: Automated & Containerized ](/docker-etl/)
-
 [Documentation](/docker-etl/doc.MD)
 
-```
-                     ┌──────────────────────────────────────────────────────────┐
-                     │                        Docker                            │
-                     │──────────────────────────────────────────────────────────│
-                     │                                                          │
-                     │   ┌────────────────────────────┐                         │
-                     │   │     Python ETL Container   │                         │
-                     │   │ - Extract data             │                         │
-                     │   │ - Transform data (cleaning)│                         │
-                     │   │ - Load into PostgreSQL     │                         │
-                     │   └──────────────┬─────────────┘                         │
-                     │                  │                                       │
-                     │                  ▼                                       │
-                     │       ┌────────────────────────────┐                     │
-                     │       │    PostgreSQL Database     │                     │
-                     │       │  (Stores processed data)   │                     │
-                     │       └────────────────────────────┘                     │
-                     │                                                          │
-                     │   ┌────────────────────────────┐                         │
-                     │   │         Bash Script        │                         │
-                     │   │ - Builds Docker images     │                         │
-                     │   │ - Starts both containers   │                         │
-                     │   │ - Automates full workflow  │                         │
-                     │   └────────────────────────────┘                         │
-                     │                                                          │
-                     └──────────────────────────────────────────────────────────┘
-```
 
 ## [4. Fully Managed Data Synchronization Pipeline](/eu-db-migration/)
  
@@ -141,9 +81,9 @@ This repo serves as a record of my learning journey through the CDE bootcamp, sh
 
 ## [6. Wikipedia Pageviews Data Pipeline](/wikipedia-pageviews/)
 [Documentation](/wikipedia-pageviews/doc.MD)
-```
-DAG
-    A[Download & Unzip (BashOperator)] --> B[Filter Companies (PythonOperator)]
-    B --> C[Load into SQLite (PythonOperator)]
-    C --> D[Query Top Company (PythonOperator)]
-```
+[Architecture](/wikipedia-pageviews/architecture.drawio.png)
+
+
+## [7. Superstore Snowflake Schema Modeling Pipeline](/superstore_modelling/)
+[Documentation](/superstore_modelling/doc.MD)
+[Architecture](/superstore_modelling/architecture.drawio.png)
