@@ -9,6 +9,7 @@ newyorktimes-elt/dbt/logs
 newyorktimes-elt/dbt/nyt_project/logs
 newyorktimes-elt/dbt/nyt_project/target
 newyorktimes-elt/dbt/nyt_project/.gitignore
+newyorktimes-elt/dbt/nyt_project/**/*.gitkeep
 
 # Wikipedia Pageviews
 wikipedia-pageviews/scripts/__pycache__
@@ -17,4 +18,9 @@ wikipedia-pageviews/viewzone/*
 
 # Superstore Data Modelling
 superstore_modelling/airflow/.dbt
-
+superstore_modelling/dbt/dbt_project/**/*.gitkeep
+superstore_modelling/dbt/dbt_project/target/
+superstore_modelling/dbt/dbt_project/dbt_packages/
+superstore_modelling/dbt/dbt_project/logs/
+superstore_modelling/dbt/dbt_project/.gitignore
+superstore_modelling/dbt/dbt_project/README.md
