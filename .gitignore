@@ -1,3 +1,6 @@
+# bash-ql
+bash-ql/scripts/bash/header.csv
+
 # Data Synchronization Pipeline 
 eu-db-migration/dotenv
 eu-db-migration/film-db-dump.sql
@@ -24,3 +27,4 @@ superstore_modelling/dbt/dbt_project/dbt_packages/
 superstore_modelling/dbt/dbt_project/logs/
 superstore_modelling/dbt/dbt_project/.gitignore
 superstore_modelling/dbt/dbt_project/README.md
+superstore_modelling/dbt/logs
