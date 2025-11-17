@@ -1,11 +1,8 @@
 # CoreSentiment: Wikipedia Pageviews Data Pipeline
-#### [problem document](https://docs.google.com/document/d/1WjDimpENYnB9B_4EmAiWaxAlR_Qslw4Lsq-8YCHV9UE/edit?tab=t.0)
-## Project Overview
-This project demonstrates how to orchestrate a data pipeline using Apache Airflow to automate the extraction, transformation, and analysis of Wikipedia pageview data for five major tech companies — Amazon, Apple, Facebook, Google, and Microsoft.
+## Overview
+A data team needed an automated way to understand global public interest in major tech companies by analyzing hourly Wikipedia pageviews. The challenge was that raw Wikimedia dumps are large, unstructured, and updated hourly, making manual processing inefficient and inconsistent. The organization required a reliable pipeline that could ingest raw web data, filter for specific company pages across all global domains, store results for analysis, and identify which company was receiving the most attention at any given hour.
 
-The pipeline downloads hourly pageview data from the official Wikimedia dumps, processes and filters it for selected company pages, stores the results in a SQLite database, and runs a query to identify which company’s page had the highest number of views during that hour.
-
-This project serves as a Proof of Concept (POC) — a small-scale demonstration of how Airflow can automate real-world data workflows that combine ingestion, transformation, and analysis.
+I designed and implemented an Airflow-orchestrated ETL pipeline that automated end-to-end processing of Wikimedia pageviews. Using Bash and Python operators, I built tasks that downloaded hourly dumps, filtered relevant records for five major tech companies, and loaded clean results into a SQLite database for analysis. I incorporated Airflow best practices such as idempotent tasks, logs, retry logic, and modular scripts for extraction, transformation, loading, and querying. The pipeline provided a reproducible proof-of-concept showing how Airflow can orchestrate web-scale ingestion and enable near-real-time insights into global company sentiment.
 
 ## Project Structure
 ```
