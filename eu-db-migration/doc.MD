@@ -1,9 +1,13 @@
 # End-to-End Data Synchronization Pipeline 📡
 ## Overview 
 
-This project demonstrates how to build a complete data synchronization pipeline using Airbyte, MySQL, PostgreSQL, and Snowflake. The goal is to reliably move and synchronize data across multiple systems, while leveraging containerization for easy setup and reproducibility.
+Business Problem / Scenario
 
-Data lives in different systems, but teams need it consolidated for analytics, reporting, or further transformations. This pipeline solves that problem by:
+A growing organization needed to unify operational data scattered across multiple systems—transactional records in MySQL, local reporting databases in PostgreSQL, and analytical workloads running in Snowflake. The lack of a synchronized, consolidated data flow caused inconsistencies between teams, delayed reporting, and made it difficult to build a single source of truth for analytics. The company required an automated, reliable, and reproducible mechanism to continuously move data from the operational system into both their local environment and cloud data warehouse.
+
+I designed and built an end-to-end data synchronization pipeline leveraging Airbyte as the integration layer, running the entire infrastructure through Docker for portability and consistency. I configured MySQL as the source and set up PostgreSQL and Snowflake as destinations, establishing Airbyte connections that continuously synchronized the Film dataset across systems. I validated the pipeline using PgAdmin and Snowflake queries, ensuring schema accuracy and successful incremental loads. This solution demonstrated a scalable approach to cross-system data movement and lays the foundation for future enhancements like dbt transformations, CI/CD automation, and expansion to additional data sources.
+
+#### Key Highlights 
 
 - Extracting data from MySQL (Source Database)
 
