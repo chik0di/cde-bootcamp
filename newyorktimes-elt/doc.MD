@@ -1,10 +1,9 @@
 # New York Times ELT Pipeline
 
 ## Overview
-This project implements a fully containerized ELT (Extract, Load, Transform) data pipeline that fetches articles from the New York Times API, stores them in PostgreSQL, and transforms them using dbt for analysis and downstream visualization (e.g., in Power BI).
+A media analytics team needed a dependable way to collect, store, and analyze New York Times articles daily for trend monitoring and reporting. Doing this manually — repeatedly calling the NYT API, cleaning the responses, and preparing structured datasets — was error-prone and inconsistent. They required an automated ELT pipeline that could ingest raw article data, transform it into analytics-ready models, and refresh insights every night without manual intervention.
 
-It automates the full data flow — from raw ingestion to structured models — and is scheduled to run automatically every night at 12:00 AM using a Dockerized cron job.
-
+I designed and containerized a complete ELT workflow using Python, PostgreSQL, dbt, Docker, and a cron-based scheduler. I built a Python service that extracts articles from the NYT API and loads them into PostgreSQL, then orchestrated dbt models to transform the raw data into structured analytical tables. All components — the data warehouse, extraction app, dbt transformer, and scheduler — were packaged into Docker containers and orchestrated via Docker Compose, enabling one-command deployment on any machine. The transformed data was then used for visualizations such as news-section trends and keyword analysis in Power BI.
 ## Components
 
 | Component          | Purpose                                               |
