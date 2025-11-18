@@ -1,10 +1,11 @@
 # Superstore Data Modeling and Orchestration Pipeline
 
 ## Overview
-This project implements a hybrid cloud data pipeline for the Superstore dataset using AWS S3, Snowflake, Airflow, dbt, and Docker. The goal was to design a snowflake-modeled data warehouse that supports scalable analytics while maintaining data integrity and automation across stages.
+A retail analytics team needed a scalable, automated way to process the Superstore dataset across cloud storage, a data warehouse, and transformation layers. Manual loading and modeling made analytics slow, error-prone, and inconsistent. They required a modern ELT workflow that could ingest raw data from S3, load it into Snowflake, enforce data quality, and produce trusted dimension/fact models for reporting.
 
-The pipeline follows a complete ELT flow:
+I designed and implemented a hybrid cloud pipeline using AWS S3, Snowflake, dbt, Airflow, and Docker. I staged raw data in S3 with IAM-controlled access, created Snowflake external stages and tables, and built a dbt project with staging, dimensions, facts, and dbt-utils tests for data integrity. I then containerized dbt and orchestrated the full workflow in Airflow, automating S3→Snowflake loading and dbt transformations via a single DAG. I resolved Snowflake file-format, permission, and DockerOperator connectivity issues, ensuring a reproducible, production-ready architecture aligned with modern data engineering standards.
 
+### Key Highlights
 - Extract and Load: Raw Superstore data is stored in AWS S3 and then loaded into Snowflake using Airflow’s orchestration capabilities.
 
 - Transform: dbt models running inside a Docker container handle transformations within Snowflake, applying the [snowflake schema](https://www.techtarget.com/searchdatamanagement/definition/snowflaking) structure to normalize and organize data.
@@ -13,23 +14,9 @@ The pipeline follows a complete ELT flow:
 
 - Orchestrate and Automate: Airflow manages task dependencies, scheduling, and monitoring through a single, unified DAG.
 
-This setup demonstrates a modular and reproducible workflow. Each component—Airflow for orchestration, dbt for transformation, Snowflake for warehousing, S3 for staging, and Docker for containerization—plays a distinct, interoperable role. Together, they form a portable, production-ready data pipeline architecture aligned with modern data engineering best practices.
 
 ## Architecture
-
-The overall architecture integrates:
-
-- AWS S3 as the raw data storage layer.
-
-- Snowflake as the cloud data warehouse.
-
-- Apache Airflow as the workflow orchestrator.
-
-- dbt as the transformation and testing framework.
-
-- Docker to containerize the dbt project for portability and reproducibility.
-
-You can view the full [architectural diagram](/superstore_modelling/architecture.drawio.png).
+![architectural diagram](/superstore_modelling/architecture.drawio.png).
 
 
 ## Project Structure
